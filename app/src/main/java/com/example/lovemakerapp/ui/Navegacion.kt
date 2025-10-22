@@ -1,56 +1,30 @@
 package com.example.lovemakerapp.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.lovemakerapp.ui.screen.RegistroScreen
+import com.example.lovemakerapp.ui.screen.ResumenScreen
+import com.example.lovemakerapp.viewmodel.UsuarioViewModel
 
 @Composable
-fun Navegacion() {
+fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = "pagina1") {
-        composable("pagina1") { Pagina1(navController) }
-        composable("pagina2") { Pagina2(navController) }
-    }
-}
 
-@Composable
-fun Pagina1(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    // 🔥 Aquí creamos el ViewModel una sola vez
+    val usuarioViewModel: UsuarioViewModel = viewModel()
+
+    NavHost(
+        navController = navController,
+        startDestination = "registro"
     ) {
-        Text("Página Número Uno")
-        Text("8 de agosto, día del gato")
-        Button(onClick = { navController.navigate("pagina2") }) {
-            Text("Ir a la página 2")
+        composable(route = "registro") {
+            RegistroScreen(navController, usuarioViewModel)
         }
-    }
-}
-
-@Composable
-fun Pagina2(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Bienvenido a la página 2")
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.navigate("pagina1") }) {
-            Text("Ir a la primera página")
+        composable(route = "resumen") {
+            ResumenScreen(usuarioViewModel)
         }
     }
 }
