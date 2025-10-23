@@ -10,7 +10,7 @@ import com.example.lovemakerapp.ui.screen.ResumenScreen
 import com.example.lovemakerapp.viewmodel.UsuarioViewModel
 
 @Composable
-fun AppNavigation() {
+fun Navegacion() {
     val navController = rememberNavController()
 
     // 🔥 Aquí creamos el ViewModel una sola vez
