@@ -5,8 +5,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.lovemakerapp.ui.screen.RegistroScreen
-import com.example.lovemakerapp.ui.screen.ResumenScreen
+import com.example.lovemakerapp.ui.screen.*
 import com.example.lovemakerapp.viewmodel.UsuarioViewModel
 
 @Composable
@@ -18,8 +17,11 @@ fun Navegacion() {
 
     NavHost(
         navController = navController,
-        startDestination = "registro"
+        startDestination = "welcome"
     ) {
+        composable(route = "welcome") {
+            welcomeScreen(navController)
+        }
         composable(route = "registro") {
             RegistroScreen(navController, usuarioViewModel)
         }
