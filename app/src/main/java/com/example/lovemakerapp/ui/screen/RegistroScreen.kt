@@ -29,90 +29,61 @@ fun RegistroScreen(
     navController: NavController,
     viewModel: UsuarioViewModel
 ) {
-    val estado by viewModel.estado.collectAsState()
+    val estado by viewModel.form.collectAsState()
 
     Column(
         Modifier
             .fillMaxSize()
-            .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 12.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Campo nombre
+
         OutlinedTextField(
             value = estado.nombre,
             onValueChange = viewModel::onNombreChange,
-            label = { Text(text = "Nombre") },
-            isError = estado.errores.nombre != null,
-            supportingText = {
-                estado.errores.nombre?.let {
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
-                }
-            },
+            label = { Text("Nombre") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Campo correo
         OutlinedTextField(
             value = estado.correo,
             onValueChange = viewModel::onCorreoChange,
-            label = { Text(text = "Correo electrónico") },
-            isError = estado.errores.correo != null,
-            supportingText = {
-                estado.errores.correo?.let {
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
-                }
-            },
+            label = { Text("Correo electrónico") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Campo clave
         OutlinedTextField(
             value = estado.clave,
             onValueChange = viewModel::onClaveChange,
-            label = { Text(text = "Contraseña") },
             visualTransformation = PasswordVisualTransformation(),
-            isError = estado.errores.clave != null,
-            supportingText = {
-                estado.errores.clave?.let {
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-        // Campo dirección
-        OutlinedTextField(
-            value = estado.direccion,
-            onValueChange = viewModel::onDireccionChange,
-            label = { Text(text = "Dirección") },
-            isError = estado.errores.direccion != null,
-            supportingText = {
-                estado.errores.direccion?.let {
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
-                }
-            },
+            label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Checkbox: aceptar términos
+        OutlinedTextField(
+            value = estado.direccion,
+            onValueChange = viewModel::onDireccionChange,
+            label = { Text("Dirección") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = estado.aceptaTerminos,
                 onCheckedChange = viewModel::onAceptarTerminosChange
             )
-            Spacer(Modifier.width(width = 8.dp))
-            Text(text = "Acepto los términos y condiciones")
+            Text("Acepto los términos y condiciones")
         }
 
-        // Botón: enviar
         Button(
             onClick = {
-                if (viewModel.validarFormulario()) {
-                    navController.navigate(route = "resumen")
+                viewModel.registrarUsuario {
+                    navController.navigate("resumen")
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            enabled = estado.aceptaTerminos
         ) {
-            Text(text = "Registrar")
+            Text("Registrar")
         }
     }
 }

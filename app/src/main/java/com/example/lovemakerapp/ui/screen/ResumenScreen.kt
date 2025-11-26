@@ -10,17 +10,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.lovemakerapp.viewmodel.UsuarioViewModel
+import com.example.lovemakerapp.viewmodel.UsuarioFormState   // <--- Import correcto
 
 @Composable
-fun ResumenScreen(viewModel: UsuarioViewModel) {
-    val estado by viewModel.estado.collectAsState()
+fun ResumenScreen(
+    usuarioViewModel: UsuarioViewModel
+) {
+    val estado by usuarioViewModel.form.collectAsState(initial = UsuarioFormState())
 
-    Column(Modifier.padding(all = 16.dp)) {
-        Text(text = "Resumen del Registro", style = MaterialTheme.typography.headlineMedium)
-        Text(text = "Nombre: ${estado.nombre}")
-        Text(text = "Correo: ${estado.correo}")
-        Text(text = "Dirección: ${estado.direccion}")
-        Text(text = "Contraseña: ${"*".repeat(n = estado.clave.length)}")
-        Text(text = "Términos: ${if (estado.aceptaTerminos) "Aceptados" else "No aceptados"}")
+    Column(Modifier.padding(16.dp)) {
+        Text("Resumen del Registro", style = MaterialTheme.typography.headlineMedium)
+        Text("Nombre: ${estado.nombre}")
+        Text("Correo: ${estado.correo}")
+        Text("Dirección: ${estado.direccion}")
+        Text("Contraseña: ${"*".repeat(estado.clave.length)}")
+        Text("Términos: ${if (estado.aceptaTerminos) "Aceptados" else "No aceptados"}")
     }
 }
